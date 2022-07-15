@@ -41,13 +41,17 @@ char pop()
     return x;
 }
 
+char peek(){
+    return t->data;
+}
+
 void display()
 {
     struct Node *p;
     p = top;
     while (p != NULL)
     {
-        printf("%c ", p->data);
+        printf("%d ", p->data);
         p = p->next;
     }
     printf("\n");
@@ -58,18 +62,23 @@ int isBalanced(char *exp)
     int i;
     for (i = 0; exp[i] != '\0'; i++)
     {
-        if (exp[i] == '(')
+        if (exp[i] == '{' || exp[i] == '(' || exp[i] == '[')
         {
             push(exp[i]);
         }
-        else if (exp[i] == ')')
+        /* else if (exp[i] == exp[i] - 1 )
         {
             if (top == NULL)
             {
                 return 0;
             }
             pop();
+        } */
+        else
+        {
+            
         }
+        
     }
     if (top == NULL)
     {
