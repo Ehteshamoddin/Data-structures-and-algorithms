@@ -41,10 +41,6 @@ char pop()
     return x;
 }
 
-char peek(){
-    return t->data;
-}
-
 void display()
 {
     struct Node *p;
@@ -57,28 +53,45 @@ void display()
     printf("\n");
 }
 
+int match(char a, char b)
+{
+    if (a == '(' && b == ')')
+    {
+        return 1;
+    }
+    if (a == '[' && b == ']')
+    {
+        return 1;
+    }
+    if (a == '{' && b == '}')
+    {
+        return 1;
+    }
+    return 0;
+}
+
 int isBalanced(char *exp)
 {
     int i;
+    char pop_ch;
     for (i = 0; exp[i] != '\0'; i++)
     {
         if (exp[i] == '{' || exp[i] == '(' || exp[i] == '[')
         {
             push(exp[i]);
         }
-        /* else if (exp[i] == exp[i] - 1 )
+        else if (exp[i] == '}' || exp[i] == ')' || exp[i] == ']')
         {
             if (top == NULL)
             {
                 return 0;
             }
-            pop();
-        } */
-        else
-        {
-            
+            pop_ch = pop(exp[i]);
+            if (!match(pop_ch, exp[i]))
+            {
+                return 0;
+            }
         }
-        
     }
     if (top == NULL)
     {
@@ -92,7 +105,7 @@ int isBalanced(char *exp)
 
 int main()
 {
-    char *exp = "(a+b)*(c-d)";
+    char *exp = "{(a+b)*(c-d])}";
     printf("%d", isBalanced(exp));
 
     return 0;
