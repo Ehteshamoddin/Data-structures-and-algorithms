@@ -11,8 +11,11 @@ public:
     void Preorder(Node *p);
     void Inorder(Node *p);
     void Postorder(Node *p);
+    void Levelorder() { Levelorder(root); } // Passing Private Parameter in Constructor
     void Levelorder(Node *p);
-    void Height(Node *root);
+    int Height() { return Height(root); } // Passing Private Parameter in Constructor
+    int Height(Node *p);
+    Node *getRoot() { return root; }
 };
 
 void Tree::createTree()
@@ -82,8 +85,91 @@ void Tree::Postorder(Node *p)
     }
 }
 
+void Tree::Levelorder(Node *p)
+{
+    queue q(100);
+    cout << root->data << ", " << flush;
+    q.enqueue(root);
+
+    while (!q.isEmpty())
+    {
+        p = q.dequeue();
+        if (p->lchild)
+        {
+            cout << p->lchild->data << ", " << flush;
+            q.enqueue(p->lchild);
+        }
+        if (p->rchild)
+        {
+            cout << p->rchild->data << ", " << flush;
+            q.enqueue(p->rchild);
+        }
+    }
+}
+
+int Tree::Height(Node *p)
+{
+    int l = 0;
+    int r = 0;
+    if (p == nullptr)
+    {
+        return 0;
+    }
+
+    l = Height(p->lchild);
+    r = Height(p->rchild);
+    if (l > r)
+    {
+        return l + 1;
+    }
+    else
+    {
+        return r + 1;
+    }
+}
+
 int main()
 {
+    Tree t;
 
+    t.createTree();
+
+    cout << "Preorder: " << flush;
+    t.Preorder(t.getRoot());
+    cout << endl;
+
+    cout << "Inorder: " << flush;
+    t.Inorder(t.getRoot());
+    cout << endl;
+
+    cout << "Postorder: " << flush;
+    t.Postorder(t.getRoot());
+    cout << endl;
+
+    cout << "Levelorder: " << flush;
+    t.Levelorder(t.getRoot());
+    cout << endl;
+
+    cout << "Height: " << t.Height(t.getRoot()) << endl;
+
+    cout << "Recursive Passing Private Parameter in Constructor" << endl;
+
+    cout << "Preorder: " << flush;
+    t.Preorder(t.root);
+    cout << endl;
+
+    cout << "Inorder: " << flush;
+    t.Inorder(t.root);
+    cout << endl;
+
+    cout << "Postorder: " << flush;
+    t.Postorder(t.root);
+    cout << endl;
+
+    cout << "Levelorder: " << flush;
+    t.Levelorder();
+    cout << endl;
+
+    cout << "Height: " << t.Height() << endl;
     return 0;
 }
