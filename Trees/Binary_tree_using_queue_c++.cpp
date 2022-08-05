@@ -1,48 +1,60 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "Queue.h"
+#include <iostream>
+#include "queueCpp.h"
+using namespace std;
 
-struct Node *root = NULL;
-void Treecreate()
+class Tree
 {
-    struct Node *p, *t;
+public:
+    Node *root;
+    Tree() { root = NULL; }
+    void createTree();
+    void Preorder(Node *p);
+    void Inorder(Node *p);
+    void Postorder(Node *p);
+    void Levelorder(Node *p);
+    void Height(Node *root);
+};
+
+void Tree::createTree()
+{
+    Node *p, *t;
     int x;
-    struct Queue q;
-    create(&q, 100);
+    queue q(100);
 
     printf("Eneter root value ");
     scanf("%d", &x);
-    root = (struct Node *)malloc(sizeof(struct Node));
+    root = new Node;
     root->data = x;
     root->lchild = root->rchild = NULL;
-    enqueue(&q, root);
+    q.enqueue(root);
 
-    while (!isEmpty(q))
+    while (!q.isEmpty())
     {
-        p = dequeue(&q);
+        p = q.dequeue();
         printf("eneter left child of %d ", p->data);
         scanf("%d", &x);
         if (x != -1)
         {
-            t = (struct Node *)malloc(sizeof(struct Node));
+            t = new Node;
             t->data = x;
             t->lchild = t->rchild = NULL;
             p->lchild = t;
-            enqueue(&q, t);
+            q.enqueue(t);
         }
         printf("eneter right child of %d ", p->data);
         scanf("%d", &x);
         if (x != -1)
         {
-            t = (struct Node *)malloc(sizeof(struct Node));
+            t = new Node;
             t->data = x;
             t->lchild = t->rchild = NULL;
             p->rchild = t;
-            enqueue(&q, t);
+            q.enqueue(t);
         }
     }
 }
-void Preorder(struct Node *p)
+
+void Tree::Preorder(Node *p)
 {
     if (p)
     {
@@ -51,7 +63,7 @@ void Preorder(struct Node *p)
         Preorder(p->rchild);
     }
 }
-void Inorder(struct Node *p)
+void Tree::Inorder(Node *p)
 {
     if (p)
     {
@@ -60,7 +72,7 @@ void Inorder(struct Node *p)
         Inorder(p->rchild);
     }
 }
-void Postorder(struct Node *p)
+void Tree::Postorder(Node *p)
 {
     if (p)
     {
@@ -69,15 +81,9 @@ void Postorder(struct Node *p)
         printf("%d ", p->data);
     }
 }
+
 int main()
 {
-    Treecreate();
-    printf("\nPre Order ");
-    Preorder(root);
-    printf("\nIn Order ");
-    Inorder(root);
-    printf("\nPost Order ");
-    Postorder(root);
 
     return 0;
 }

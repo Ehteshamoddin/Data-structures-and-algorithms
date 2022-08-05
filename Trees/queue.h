@@ -1,47 +1,39 @@
-#include <stdio.h>
-#include <stdlib.h>
-
 struct Node
 {
     struct Node *lchild;
     int data;
     struct Node *rchild;
 };
-
-struct queue
+struct Queue
 {
     int size;
-    int rear;
     int front;
-    Node **Q;
+    int rear;
+    struct Node **Q;
 };
-
-void create(struct queue *q, int size)
+void create(struct Queue *q, int size)
 {
     q->size = size;
     q->front = q->rear = 0;
-    q->Q = (Node **)malloc(q->size * sizeof(Node *));
+    q->Q = (struct Node **)malloc(q->size * sizeof(struct
+                                                   Node *));
 }
-
-void enqueue(struct queue *q, Node *x)
+void enqueue(struct Queue *q, struct Node *x)
 {
     if ((q->rear + 1) % q->size == q->front)
-    {
-        printf("Queue full");
-    }
+        printf("Queue is Full");
     else
     {
         q->rear = (q->rear + 1) % q->size;
         q->Q[q->rear] = x;
     }
 }
-Node dequeue(struct queue *q)
+struct Node *dequeue(struct Queue *q)
 {
-    Node *x = NULL;
+    struct Node *x = NULL;
+
     if (q->front == q->rear)
-    {
-        printf("Queue Empty");
-    }
+        printf("Queue is Empty\n");
     else
     {
         q->front = (q->front + 1) % q->size;
@@ -49,8 +41,7 @@ Node dequeue(struct queue *q)
     }
     return x;
 }
-
-int isEmpty(struct queue q)
+int isEmpty(struct Queue q)
 {
     return q.front == q.rear;
 }
