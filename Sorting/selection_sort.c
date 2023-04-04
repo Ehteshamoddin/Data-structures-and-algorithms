@@ -6,15 +6,15 @@ void swap(int *a, int *b)
     *a = *b;
     *b = t;
 }
+
 void selection(int A[], int n)
 {
     int i, j, k;
-
     for (i = 0; i < n - 1; i++)
     {
         for (j = k = i; j < n; j++)
         {
-            if (A[j] < A[k])
+            if (A[j] < A[k])   
             {
                 k = j;
             }
